@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model activities {
+  id                     BigInt    @id
+  name                   String
+  distance               Float
+  elapsed_time           Float
+  moving_time            Float
+  total_elevation_gain   Float
+  type                   String    @db.VarChar(50)
+  start_date             DateTime  @db.Timestamptz(6)
+  start_date_local       DateTime  @db.Timestamp(6)
+  achievement_count      Int       @db.SmallInt
+  kudos_count            Int
+  comment_count          Int
+  start_latlng           Float[]
+  end_latlng             Float[]
+  average_speed          Float
+  max_speed              Float
+  average_watts          Float?
+  max_watts              Float?
+  weighted_average_watts Float?
+  kilojoules             Float
+  average_heartrate      Float?
+  max_heartrate          Float?
+  elev_high              Float
+  elev_low               Float
+  pr_count               Int
+  created_at             DateTime? @default(now()) @db.Timestamp(6)
+}
