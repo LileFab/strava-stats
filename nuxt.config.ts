@@ -4,7 +4,8 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 	googleFonts: {
 		families: {
-			Montserrat: true,
+			Roboto: true,
+			Oswald: true,
 		},
 	},
 	modules: [

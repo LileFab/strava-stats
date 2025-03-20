@@ -22,7 +22,8 @@ module.exports = {
 			},
 		},
 		fontFamily: {
-			Montserrat: "Montserrat, sans-serif",
+			Roboto: "Roboto, sans-serif",
+			Oswald: "Oswald",
 		},
 		container: {
 			center: true,
