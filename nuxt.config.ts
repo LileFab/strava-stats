@@ -15,7 +15,12 @@ export default defineNuxtConfig({
 		"@nuxtjs/tailwindcss",
 		"@nuxtjs/google-fonts",
 	],
-
+	vite: {
+		server: {
+			strictPort: true,
+			allowedHosts: ["run.fleisch.fr"],
+		},
+	},
 	runtimeConfig: {
 		public: {
 			stravaClientId: process.env.STRAVA_CLIENT_ID,
