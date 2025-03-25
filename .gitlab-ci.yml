@@ -1,0 +1,46 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+  IMAGE_NAME: $CI_REGISTRY_IMAGE:strava
+
+stages:
+  - build
+  - push
+  - deploy
+
+before_script:
+  - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+
+build-image:
+  stage: build
+  script:
+    - docker build --platform linux/amd64 -t $IMAGE_NAME .
+  only:
+    - main
+
+push-image:
+  stage: push
+  script:
+    - docker push $IMAGE_NAME
+  only:
+    - main
+  needs:
+    - build-image
+
+deploy:
+  stage: deploy
+  script:
+    - docker stop strava || true
+    - docker rm strava || true
+    - docker rmi $IMAGE_NAME || true
+    - docker pull $IMAGE_NAME
+    - docker run -d --name strava -p 3000:3000 $IMAGE_NAME
+  only:
+    - main
+  needs:
+    - push-image
